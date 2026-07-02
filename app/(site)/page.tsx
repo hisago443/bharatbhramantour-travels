@@ -6,6 +6,7 @@ import DestinationTile from "@/components/DestinationTile";
 import TestimonialCard from "@/components/TestimonialCard";
 import CtaBand from "@/components/CtaBand";
 import FadeIn from "@/components/FadeIn";
+import JsonLd, { travelAgencyJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
 import {
   placeholderPackages,
@@ -25,6 +26,7 @@ export default function HomePage() {
 
   return (
     <main>
+      <JsonLd data={travelAgencyJsonLd()} />
       {/* Hero */}
       <Hero
         imageSrc={placeholderHeroImage}

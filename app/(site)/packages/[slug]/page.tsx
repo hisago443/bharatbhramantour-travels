@@ -5,6 +5,7 @@ import Badge from "@/components/Badge";
 import Accordion from "@/components/Accordion";
 import CtaBand from "@/components/CtaBand";
 import FadeIn from "@/components/FadeIn";
+import JsonLd, { touristTripJsonLd, faqPageJsonLd, breadcrumbJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
 import { placeholderPackages, placeholderHeroImage } from "@/lib/placeholder-data";
 
@@ -79,6 +80,25 @@ export default async function PackageDetailPage({
 
   return (
     <main>
+      <JsonLd
+        data={touristTripJsonLd({
+          title: pkg.title!,
+          slug: pkg.slug!.current,
+          summary: pkg.summary!,
+          durationDays: pkg.durationDays!,
+          startingPrice: pkg.startingPrice!,
+          routeLine: pkg.routeLine,
+          itinerary: pkg.itinerary,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", url: "https://bharatbhramantours.com" },
+          { name: "Packages", url: "https://bharatbhramantours.com/packages" },
+          { name: pkg.title!, url: `https://bharatbhramantours.com/packages/${pkg.slug!.current}` },
+        ])}
+      />
+      {pkg.faq && pkg.faq.length > 0 && <JsonLd data={faqPageJsonLd(pkg.faq)} />}
       {/* Hero */}
       <section className="relative flex min-h-[60vh] items-end overflow-hidden">
         <Image
