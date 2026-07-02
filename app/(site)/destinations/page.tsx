@@ -49,6 +49,7 @@ export default function DestinationsPage() {
                   imageSrc={destinationImages[dest.slug!.current] || placeholderHeroImage}
                   imageAlt={`${dest.title}, Ladakh`}
                   region={dest.region}
+                  altitudeMeters={dest.altitudeMeters}
                 />
               </FadeIn>
             ))}
@@ -68,6 +69,7 @@ export default function DestinationsPage() {
                   imageSrc={destinationImages[dest.slug!.current] || placeholderHeroImage}
                   imageAlt={`${dest.title}, Himachal Pradesh`}
                   region={dest.region}
+                  altitudeMeters={dest.altitudeMeters}
                 />
               </FadeIn>
             ))}

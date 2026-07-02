@@ -7,7 +7,7 @@ import CtaBand from "@/components/CtaBand";
 import FadeIn from "@/components/FadeIn";
 import JsonLd, { touristTripJsonLd, faqPageJsonLd, breadcrumbJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
-import { placeholderPackages, placeholderHeroImage } from "@/lib/placeholder-data";
+import { placeholderPackages, placeholderHeroImage, packageHeroImages } from "@/lib/placeholder-data";
 
 export function generateStaticParams() {
   return placeholderPackages.map((pkg) => ({
@@ -102,8 +102,8 @@ export default async function PackageDetailPage({
       {/* Hero */}
       <section className="relative flex min-h-[60vh] items-end overflow-hidden">
         <Image
-          src={placeholderHeroImage}
-          alt={`${pkg.title} hero`}
+          src={packageHeroImages[pkg.slug!.current] || placeholderHeroImage}
+          alt={`${pkg.title} — ${pkg.routeLine || "Ladakh tour"}`}
           fill
           priority
           className="object-cover animate-ken-burns"

@@ -197,17 +197,79 @@ export const placeholderWhyUs: WhyUsItem[] = [
   { icon: "check", title: "No Hidden Costs", description: "The price we quote is the price you pay. Accommodation, meals, permits, vehicle — it's all in there." },
 ];
 
-export const placeholderImage = "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&q=80";
-export const placeholderHeroImage = "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1920&q=80";
+// Unsplash photo helper — all photos are free under the Unsplash License
+function unsplash(id: string, w: number, q = 80) {
+  return `https://images.unsplash.com/photo-${id}?w=${w}&q=${q}&auto=format&fit=crop`;
+}
+
+// Photo IDs sourced from Unsplash, verified as free (Unsplash License)
+const photos = {
+  ladakhValley: "1713214414117-5b8acc5aa06d",       // Ladakh valley with dramatic peaks — Mithun Shivana
+  mountainLake: "1643368214091-6af1a029aee0",       // Mountain range reflected in lake — Anuj Bansal
+  lehMonastery: "1695876670020-e2c2ac5a21ce",       // White monastery building, Leh — Anmol Arora
+  nubraCamels: "1741416075697-edc2a63aa226",        // Bactrian camels, Hunder dunes — Rama Krushna Behera
+  pangongBlue: "1635255506105-b74adbd94026",        // Pangong Tso with snow-capped peaks — SOURAV BHADRA
+  tsoMoriri: "1600356033695-a003690a6351",          // Blue lake near brown mountains — Aditya Rao
+  milkyWay: "1721755514211-eca71feba369",           // Milky Way over Ladakh mountains — Mayur Arvind
+  kargil: "1566323124805-757e5c41d37c",             // River bridge surrounded by mountains — Ladakh
+  manali: "1652543393067-281cea9b8c02",             // Manali city with mountain backdrop — Sajal Das
+  birBilling: "1625124313248-903aa145ac51",         // Paragliding over green mountains, Bir — Naman Sood
+  highway: "1694948055470-36d187668df1",            // Manali-Leh highway — Vivek
+  rawMountain: "1566323124620-d22adb71d2a2",        // Brown mountain under blue sky, Leh — Rish Agarwal
+  lamayuru: "1632649276640-b78f56fbb68f",           // Lamayuru monastery on mountain — Rutpratheep Nilpechr
+  sangam: "1619837374214-f5b9eb80876d",             // Indus-Zanskar river confluence
+  mountainRoad: "1694948056349-f91199dd8a3a",       // Motorcyclist crosses bridge in mountains — Vivek
+};
+
+export const placeholderImage = unsplash(photos.ladakhValley, 1200);
+export const placeholderHeroImage = unsplash(photos.ladakhValley, 1920, 85);
 
 export const destinationImages: Record<string, string> = {
-  leh: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
-  "nubra-valley": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
-  "pangong-tso": "https://images.unsplash.com/photo-1600431521340-491eca880813?w=800&q=80",
-  "tso-moriri": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
-  hanle: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
-  turtuk: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
-  "kargil-drass": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
-  manali: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
-  "bir-billing": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80",
+  leh: unsplash(photos.lehMonastery, 800),
+  "nubra-valley": unsplash(photos.nubraCamels, 800),
+  "pangong-tso": unsplash(photos.pangongBlue, 800),
+  "tso-moriri": unsplash(photos.tsoMoriri, 800),
+  hanle: unsplash(photos.milkyWay, 800),
+  turtuk: unsplash(photos.mountainRoad, 800),
+  "kargil-drass": unsplash(photos.kargil, 800),
+  manali: unsplash(photos.manali, 800),
+  "bir-billing": unsplash(photos.birBilling, 800),
+};
+
+export const destinationHeroImages: Record<string, string> = {
+  leh: unsplash(photos.lehMonastery, 1920, 85),
+  "nubra-valley": unsplash(photos.nubraCamels, 1920, 85),
+  "pangong-tso": unsplash(photos.pangongBlue, 1920, 85),
+  "tso-moriri": unsplash(photos.tsoMoriri, 1920, 85),
+  hanle: unsplash(photos.milkyWay, 1920, 85),
+  turtuk: unsplash(photos.mountainRoad, 1920, 85),
+  "kargil-drass": unsplash(photos.kargil, 1920, 85),
+  manali: unsplash(photos.manali, 1920, 85),
+  "bir-billing": unsplash(photos.birBilling, 1920, 85),
+};
+
+export const packageHeroImages: Record<string, string> = {
+  "7-day-leh-nubra-pangong-classic-circuit": unsplash(photos.mountainLake, 1920, 85),
+  "9-day-grand-ladakh": unsplash(photos.ladakhValley, 1920, 85),
+  "6-day-ladakh-with-turtuk": unsplash(photos.mountainRoad, 1920, 85),
+  "8-day-manali-to-leh-overland-expedition": unsplash(photos.highway, 1920, 85),
+  "5-day-leh-comfort": unsplash(photos.lehMonastery, 1920, 85),
+  "10-day-trans-himalayan-crossing": unsplash(photos.lamayuru, 1920, 85),
+  "3-day-bir-billing-paragliding-weekend": unsplash(photos.birBilling, 1920, 85),
+  "5-day-manali-sissu-jispa-getaway": unsplash(photos.manali, 1920, 85),
+  "hanle-dark-sky-expedition": unsplash(photos.milkyWay, 1920, 85),
+  "ladakh-photography-expedition": unsplash(photos.rawMountain, 1920, 85),
+};
+
+export const packageCardImages: Record<string, string> = {
+  "7-day-leh-nubra-pangong-classic-circuit": unsplash(photos.mountainLake, 800),
+  "9-day-grand-ladakh": unsplash(photos.ladakhValley, 800),
+  "6-day-ladakh-with-turtuk": unsplash(photos.mountainRoad, 800),
+  "8-day-manali-to-leh-overland-expedition": unsplash(photos.highway, 800),
+  "5-day-leh-comfort": unsplash(photos.lehMonastery, 800),
+  "10-day-trans-himalayan-crossing": unsplash(photos.lamayuru, 800),
+  "3-day-bir-billing-paragliding-weekend": unsplash(photos.birBilling, 800),
+  "5-day-manali-sissu-jispa-getaway": unsplash(photos.manali, 800),
+  "hanle-dark-sky-expedition": unsplash(photos.milkyWay, 800),
+  "ladakh-photography-expedition": unsplash(photos.rawMountain, 800),
 };

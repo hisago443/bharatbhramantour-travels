@@ -5,7 +5,7 @@ import PackageCard from "@/components/PackageCard";
 import FadeIn from "@/components/FadeIn";
 import CtaBand from "@/components/CtaBand";
 import { waLink } from "@/lib/config";
-import { placeholderPackages, placeholderHeroImage } from "@/lib/placeholder-data";
+import { placeholderPackages, placeholderHeroImage, packageCardImages } from "@/lib/placeholder-data";
 
 export const metadata: Metadata = {
   title: "Packages",
@@ -49,8 +49,8 @@ export default function PackagesPage() {
                   <PackageCard
                     title={pkg.title!}
                     slug={pkg.slug!.current}
-                    imageSrc={placeholderHeroImage}
-                    imageAlt={`${pkg.title} hero image`}
+                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
+                    imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
                     bestMonths={pkg.bestMonths}
@@ -79,8 +79,8 @@ export default function PackagesPage() {
                   <PackageCard
                     title={pkg.title!}
                     slug={pkg.slug!.current}
-                    imageSrc={placeholderHeroImage}
-                    imageAlt={`${pkg.title} hero image`}
+                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
+                    imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
                     bestMonths={pkg.bestMonths}

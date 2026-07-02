@@ -15,6 +15,7 @@ import {
   placeholderWhyUs,
   placeholderHeroImage,
   destinationImages,
+  packageCardImages,
 } from "@/lib/placeholder-data";
 
 export default function HomePage() {
@@ -30,11 +31,12 @@ export default function HomePage() {
       {/* Hero */}
       <Hero
         imageSrc={placeholderHeroImage}
-        imageAlt="Pangong Tso lake reflecting the Himalayan sky at dawn"
+        imageAlt="Aerial view of the Indus and Zanskar river confluence in Ladakh"
         headline="The Himalayas, Properly."
         subline="Acclimatization-first itineraries, local drivers who know every crossing, permits handled before you land."
         ctaLabel="Plan My Trip"
         ctaHref="/contact"
+        videoSrc="/videos/hero-ladakh.mp4"
       />
 
       {/* Positioning Intro */}
@@ -43,13 +45,46 @@ export default function HomePage() {
           <FadeIn>
             <p className="mx-auto max-w-3xl font-display text-h2 leading-heading tracking-heading text-night">
               You don&apos;t come to Ladakh for a holiday. You come to stand at
-              the edge of the world and feel it stare back.
+              the edge of the world and{" "}
+              <em className="text-lake">feel it stare back</em>.
             </p>
             <p className="mx-auto mt-8 max-w-2xl text-body leading-body text-charcoal/70">
               Bharat Bhraman is the operator that lives here — routes shaped
               around your body&apos;s need to adjust, vehicles equipped for every
               altitude, a team that knows every road by the sound of its gravel.
             </p>
+          </FadeIn>
+
+          {/* Editorial stats band */}
+          <FadeIn delay={150}>
+            <div className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-y-10 border-t border-stone/60 pt-12 md:grid-cols-4">
+              <div>
+                <p className="font-display text-h1 leading-none text-night">14</p>
+                <p className="mt-2 text-caption font-medium uppercase tracking-caps text-charcoal/60">
+                  Destinations
+                </p>
+              </div>
+              <div>
+                <p className="font-display text-h1 leading-none text-night">
+                  5,798<span className="text-h3">m</span>
+                </p>
+                <p className="mt-2 text-caption font-medium uppercase tracking-caps text-charcoal/60">
+                  Highest Road We Drive
+                </p>
+              </div>
+              <div>
+                <p className="font-display text-h1 leading-none text-night">100%</p>
+                <p className="mt-2 text-caption font-medium uppercase tracking-caps text-charcoal/60">
+                  Permits Handled
+                </p>
+              </div>
+              <div>
+                <p className="font-display text-h1 leading-none text-night">24/7</p>
+                <p className="mt-2 text-caption font-medium uppercase tracking-caps text-charcoal/60">
+                  On-Road Support
+                </p>
+              </div>
+            </div>
           </FadeIn>
         </Container>
       </section>
@@ -72,8 +107,8 @@ export default function HomePage() {
                   <PackageCard
                     title={pkg.title!}
                     slug={pkg.slug!.current}
-                    imageSrc={placeholderHeroImage}
-                    imageAlt={`${pkg.title} hero image`}
+                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
+                    imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
                     bestMonths={pkg.bestMonths}
@@ -106,8 +141,8 @@ export default function HomePage() {
                   <PackageCard
                     title={pkg.title!}
                     slug={pkg.slug!.current}
-                    imageSrc={placeholderHeroImage}
-                    imageAlt={`${pkg.title} hero image`}
+                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
+                    imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
                     bestMonths={pkg.bestMonths}
@@ -146,6 +181,7 @@ export default function HomePage() {
                   imageSrc={destinationImages[dest.slug!.current] || placeholderHeroImage}
                   imageAlt={`${dest.title}, ${dest.region}`}
                   region={dest.region}
+                  altitudeMeters={dest.altitudeMeters}
                 />
               </FadeIn>
             ))}

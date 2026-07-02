@@ -6,6 +6,7 @@ interface GuideCardProps {
   imageSrc: string;
   imageAlt: string;
   excerpt: string;
+  dark?: boolean;
 }
 
 export default function GuideCard({
@@ -14,6 +15,7 @@ export default function GuideCard({
   imageSrc,
   imageAlt,
   excerpt,
+  dark = false,
 }: GuideCardProps) {
   return (
     <a href={`/guides/${slug}`} className="group block">
@@ -30,10 +32,18 @@ export default function GuideCard({
         <p className="mb-2 text-caption font-medium uppercase tracking-caps text-saffron">
           Know Before You Go
         </p>
-        <h3 className="font-display text-h3 leading-heading text-night group-hover:text-lake transition-colors">
+        <h3
+          className={`font-display text-h3 leading-heading transition-colors ${
+            dark ? "text-snow group-hover:text-saffron" : "text-night group-hover:text-lake"
+          }`}
+        >
           {title}
         </h3>
-        <p className="mt-2 text-small leading-body text-charcoal/70 line-clamp-3">
+        <p
+          className={`mt-2 text-small leading-body line-clamp-3 ${
+            dark ? "text-slate" : "text-charcoal/70"
+          }`}
+        >
           {excerpt}
         </p>
       </div>

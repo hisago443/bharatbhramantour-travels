@@ -9,6 +9,7 @@ interface HeroProps {
   ctaHref?: string;
   height?: "full" | "inner";
   overlay?: boolean;
+  videoSrc?: string;
 }
 
 export default function Hero({
@@ -20,19 +21,44 @@ export default function Hero({
   ctaHref,
   height = "full",
   overlay = true,
+  videoSrc,
 }: HeroProps) {
   const heightClass = height === "full" ? "min-h-[85vh]" : "min-h-[60vh]";
 
   return (
     <section className={`relative flex items-center justify-center ${heightClass} overflow-hidden`}>
-      <Image
-        src={imageSrc}
-        alt={imageAlt}
-        fill
-        priority
-        className="object-cover animate-ken-burns"
-        sizes="100vw"
-      />
+      {videoSrc ? (
+        <>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={imageSrc}
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            priority
+            className="object-cover opacity-0"
+            sizes="100vw"
+            aria-hidden="true"
+          />
+        </>
+      ) : (
+        <Image
+          src={imageSrc}
+          alt={imageAlt}
+          fill
+          priority
+          className="object-cover animate-ken-burns"
+          sizes="100vw"
+        />
+      )}
       {overlay && (
         <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/30 to-transparent" />
       )}

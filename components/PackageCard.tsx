@@ -34,40 +34,38 @@ export default function PackageCard({
           src={imageSrc}
           alt={imageAlt}
           fill
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <div className="absolute left-4 top-4">
-          {isSignature ? (
+        <div className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-transparent" />
+        {isSignature && (
+          <div className="absolute left-4 top-4">
             <Badge variant="saffron">Signature</Badge>
-          ) : (
-            <Badge variant="night">{durationDays} Days</Badge>
-          )}
-        </div>
+          </div>
+        )}
+        <p className="absolute bottom-4 left-4 font-display text-h3 italic text-snow">
+          {durationDays} days
+        </p>
       </div>
       <div className="p-6">
-        {isSignature && (
-          <p className="mb-2 text-caption font-medium uppercase tracking-caps text-saffron">
-            Signature Expedition
-          </p>
-        )}
-        <h3 className="font-display text-h3 leading-heading text-night">
+        <h3 className="font-display text-h3 leading-heading text-night transition-colors group-hover:text-lake">
           {title}
         </h3>
         {routeLine && (
           <p className="mt-2 text-small text-charcoal/70">{routeLine}</p>
         )}
         {bestMonths && bestMonths.length > 0 && (
-          <p className="mt-2 text-caption text-slate">
-            Best: {bestMonths.slice(0, 3).join(", ")}
+          <p className="mt-2 text-caption uppercase tracking-caps text-slate">
+            Best: {bestMonths.slice(0, 3).join(" · ")}
           </p>
         )}
-        <div className="mt-4 flex items-center justify-between">
-          <p className="text-body font-semibold text-night">
+        <div className="mt-5 flex items-center justify-between border-t border-stone/60 pt-4">
+          <p className="font-display text-h4 text-night">
             From ₹{startingPrice.toLocaleString("en-IN")}
           </p>
-          <span className="text-small font-medium uppercase tracking-caps text-saffron transition-colors group-hover:text-saffron-hover">
-            View Details
+          <span className="relative text-caption font-semibold uppercase tracking-caps text-saffron">
+            View Journey
+            <span className="absolute -bottom-1 left-0 h-px w-0 bg-saffron transition-all duration-300 group-hover:w-full" />
           </span>
         </div>
       </div>
