@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { waLink } from "@/lib/config";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
@@ -18,46 +19,89 @@ const TRIP_STYLES = [
   "Other",
 ];
 
-export default function EnquiryForm() {
+interface EnquiryFormProps {
+  packageName?: string;
+  sourcePage?: string;
+  compact?: boolean;
+}
+
+export default function EnquiryForm({
+  packageName,
+  sourcePage,
+  compact = false,
+}: EnquiryFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<{
+    name?: string;
+    travelMonth?: string;
+    groupSize?: string;
+  }>({});
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     const form = e.currentTarget;
     const data = new FormData(form);
     const body = Object.fromEntries(data.entries());
 
+    setFormData({
+      name: body.name as string,
+      travelMonth: body.travelMonth as string,
+      groupSize: body.groupSize as string,
+    });
+
     try {
       const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          ...body,
+          sourcePage: sourcePage || window.location.pathname,
+        }),
       });
       if (res.ok) {
         setSubmitted(true);
+      } else {
+        const result = await res.json();
+        setError(result.error || "Something went wrong. Please try again.");
       }
     } catch {
-      // silently handle — form still accessible
+      setError("Network error. Please check your connection.");
     } finally {
       setLoading(false);
     }
   }
 
   if (submitted) {
+    const waMessage = packageName
+      ? `Hi, I just enquired about the ${packageName}${formData.travelMonth ? ` for ${formData.travelMonth}` : ""}${formData.groupSize ? `, group of ${formData.groupSize}` : ""}.`
+      : `Hi, I just submitted an enquiry${formData.travelMonth ? ` for ${formData.travelMonth}` : ""}. Looking forward to hearing from you!`;
+
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="flex flex-col items-center justify-center py-12 text-center">
         <div className="mb-6 flex h-16 w-16 items-center justify-center bg-success text-snow text-h3">
           ✓
         </div>
         <h3 className="font-display text-h3 text-night">
-          Thank you! We&apos;ll be in touch.
+          Thank you{formData.name ? `, ${formData.name}` : ""}!
         </h3>
-        <p className="mt-4 text-body text-charcoal/70">
-          Expect a reply within 12 hours with route ideas and next steps.
+        <p className="mt-4 max-w-md text-body text-charcoal/70">
+          We&apos;ll reply within 12 hours with route ideas and a custom
+          itinerary. In the meantime, you can continue the conversation on
+          WhatsApp.
         </p>
+        <a
+          href={waLink(waMessage)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 inline-block bg-[#25D366] px-8 py-4 text-small font-semibold uppercase tracking-caps text-snow transition-opacity hover:opacity-90"
+        >
+          Continue on WhatsApp
+        </a>
       </div>
     );
   }
@@ -67,7 +111,16 @@ export default function EnquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid gap-6 sm:grid-cols-2">
+      {/* Honeypot — invisible to humans */}
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      {packageName && (
+        <input type="hidden" name="packageName" value={packageName} />
+      )}
+
+      <div className={`grid gap-6 ${compact ? "" : "sm:grid-cols-2"}`}>
         <div>
           <label htmlFor="name" className="mb-2 block text-small font-medium text-night">
             Name *
@@ -90,6 +143,8 @@ export default function EnquiryForm() {
             id="phone"
             name="phone"
             required
+            pattern="[+]?[0-9\s\-]{10,15}"
+            title="Enter a valid phone number (10-15 digits)"
             className={inputClass}
             placeholder="+91 XXXXX XXXXX"
           />
@@ -98,19 +153,18 @@ export default function EnquiryForm() {
 
       <div>
         <label htmlFor="email" className="mb-2 block text-small font-medium text-night">
-          Email *
+          Email
         </label>
         <input
           type="email"
           id="email"
           name="email"
-          required
           className={inputClass}
           placeholder="you@example.com"
         />
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-3">
+      <div className={`grid gap-6 ${compact ? "" : "sm:grid-cols-3"}`}>
         <div>
           <label htmlFor="travelMonth" className="mb-2 block text-small font-medium text-night">
             Travel Month
@@ -149,23 +203,31 @@ export default function EnquiryForm() {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="message" className="mb-2 block text-small font-medium text-night">
-          Tell Us About Your Dream Trip
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows={4}
-          className={inputClass}
-          placeholder="Destinations you're interested in, must-dos, any constraints..."
-        />
-      </div>
+      {!compact && (
+        <div>
+          <label htmlFor="message" className="mb-2 block text-small font-medium text-night">
+            Tell Us About Your Dream Trip
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows={4}
+            className={inputClass}
+            placeholder="Destinations you're interested in, must-dos, any constraints..."
+          />
+        </div>
+      )}
+
+      {error && (
+        <p className="text-small text-error">{error}</p>
+      )}
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-saffron py-4 text-small font-semibold uppercase tracking-caps text-snow transition-colors hover:bg-saffron-hover disabled:opacity-50 sm:w-auto sm:px-12"
+        className={`bg-saffron py-4 text-small font-semibold uppercase tracking-caps text-snow transition-colors hover:bg-saffron-hover disabled:opacity-50 ${
+          compact ? "w-full" : "w-full sm:w-auto sm:px-12"
+        }`}
       >
         {loading ? "Sending..." : "Send Enquiry"}
       </button>
