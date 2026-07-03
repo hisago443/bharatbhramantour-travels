@@ -225,15 +225,15 @@ export const placeholderImage = unsplash(photos.ladakhValley, 1200);
 export const placeholderHeroImage = unsplash(photos.ladakhValley, 1920, 85);
 
 export const destinationImages: Record<string, string> = {
-  leh: unsplash(photos.lehMonastery, 800),
-  "nubra-valley": unsplash(photos.nubraCamels, 800),
-  "pangong-tso": unsplash(photos.pangongBlue, 800),
-  "tso-moriri": unsplash(photos.tsoMoriri, 800),
-  hanle: unsplash(photos.milkyWay, 800),
-  turtuk: unsplash(photos.mountainRoad, 800),
-  "kargil-drass": unsplash(photos.kargil, 800),
-  manali: unsplash(photos.manali, 800),
-  "bir-billing": unsplash(photos.birBilling, 800),
+  leh: unsplash(photos.lehMonastery, 600),
+  "nubra-valley": unsplash(photos.nubraCamels, 600),
+  "pangong-tso": unsplash(photos.pangongBlue, 600),
+  "tso-moriri": unsplash(photos.tsoMoriri, 600),
+  hanle: unsplash(photos.milkyWay, 600),
+  turtuk: unsplash(photos.mountainRoad, 600),
+  "kargil-drass": unsplash(photos.kargil, 600),
+  manali: unsplash(photos.manali, 600),
+  "bir-billing": unsplash(photos.birBilling, 600),
 };
 
 export const destinationHeroImages: Record<string, string> = {
@@ -262,16 +262,16 @@ export const packageHeroImages: Record<string, string> = {
 };
 
 export const packageCardImages: Record<string, string> = {
-  "7-day-leh-nubra-pangong-classic-circuit": unsplash(photos.mountainLake, 1200, 85),
-  "9-day-grand-ladakh": unsplash(photos.ladakhValley, 1200, 85),
-  "6-day-ladakh-with-turtuk": unsplash(photos.mountainRoad, 1200, 85),
-  "8-day-manali-to-leh-overland-expedition": unsplash(photos.highway, 1200, 85),
-  "5-day-leh-comfort": unsplash(photos.lehMonastery, 1200, 85),
-  "10-day-trans-himalayan-crossing": unsplash(photos.lamayuru, 1200, 85),
-  "3-day-bir-billing-paragliding-weekend": unsplash(photos.birBilling, 1200, 85),
-  "5-day-manali-sissu-jispa-getaway": unsplash(photos.manali, 1200, 85),
-  "hanle-dark-sky-expedition": unsplash(photos.milkyWay, 1600, 90),
-  "ladakh-photography-expedition": unsplash(photos.rawMountain, 1600, 90),
+  "7-day-leh-nubra-pangong-classic-circuit": unsplash(photos.mountainLake, 800),
+  "9-day-grand-ladakh": unsplash(photos.ladakhValley, 800),
+  "6-day-ladakh-with-turtuk": unsplash(photos.mountainRoad, 800),
+  "8-day-manali-to-leh-overland-expedition": unsplash(photos.highway, 800),
+  "5-day-leh-comfort": unsplash(photos.lehMonastery, 800),
+  "10-day-trans-himalayan-crossing": unsplash(photos.lamayuru, 800),
+  "3-day-bir-billing-paragliding-weekend": unsplash(photos.birBilling, 800),
+  "5-day-manali-sissu-jispa-getaway": unsplash(photos.manali, 800),
+  "hanle-dark-sky-expedition": unsplash(photos.milkyWay, 800),
+  "ladakh-photography-expedition": unsplash(photos.rawMountain, 800),
 };
 
 export const destinationVideos: Record<string, string[]> = {

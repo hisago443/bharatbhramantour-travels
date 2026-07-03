@@ -49,12 +49,6 @@ export default function HomePage() {
             Acclimatization-first itineraries, local drivers who know every
             crossing, permits handled before you land.
           </p>
-          <a
-            href="/contact"
-            className="mt-10 inline-block bg-saffron px-8 py-4 text-small font-semibold uppercase tracking-caps text-snow transition-colors hover:bg-saffron-hover"
-          >
-            Plan My Trip
-          </a>
         </Container>
       </VideoHero>
 
@@ -133,6 +127,7 @@ export default function HomePage() {
                     bestMonths={pkg.bestMonths}
                     startingPrice={pkg.startingPrice!}
                     isSignature
+                    priority={i < 2}
                   />
                 </FadeIn>
               ))}

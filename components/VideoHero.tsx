@@ -63,6 +63,7 @@ export default function VideoHero({
         ref={videoRef}
         muted
         playsInline
+        preload="metadata"
         poster={posterSrc}
         className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
         style={{ opacity: nextIndex !== null ? 0 : 1 }}

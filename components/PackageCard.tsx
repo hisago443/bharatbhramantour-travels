@@ -11,6 +11,7 @@ interface PackageCardProps {
   bestMonths?: string[];
   startingPrice: number;
   isSignature?: boolean;
+  priority?: boolean;
 }
 
 export default function PackageCard({
@@ -23,6 +24,7 @@ export default function PackageCard({
   bestMonths,
   startingPrice,
   isSignature,
+  priority,
 }: PackageCardProps) {
   return (
     <a
@@ -34,6 +36,8 @@ export default function PackageCard({
           src={imageSrc}
           alt={imageAlt}
           fill
+          priority={priority}
+          loading={priority ? "eager" : "lazy"}
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           sizes={isSignature ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />

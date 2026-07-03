@@ -3,7 +3,7 @@
 // Mirrors the structure of the Sanity destination schema so it can be
 // seeded into the CMS and swapped for live data without template changes.
 
-function unsplash(id: string, w = 800, q = 80) {
+function unsplash(id: string, w = 600, q = 75) {
   return `https://images.unsplash.com/photo-${id}?w=${w}&q=${q}&auto=format&fit=crop`;
 }
 
