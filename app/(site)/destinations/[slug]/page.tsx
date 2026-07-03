@@ -75,13 +75,16 @@ export default async function DestinationDetailPage({
       />
 
       {/* Hero with video loop */}
-      <VideoHero
-        videos={destinationVideos[slug] || []}
-        posterSrc={destinationHeroImages[slug] || placeholderHeroImage}
-        posterAlt={`${dest.title}, ${dest.region}`}
-      >
-        <Container className="pb-16 pt-28">
-          <BackButton className="mb-10 text-snow/70 hover:text-snow" />
+      <div className="relative">
+        <div className="absolute left-6 top-20 z-20 md:left-8 md:top-24">
+          <BackButton className="text-snow/70 hover:text-snow" />
+        </div>
+        <VideoHero
+          videos={destinationVideos[slug] || []}
+          posterSrc={destinationHeroImages[slug] || placeholderHeroImage}
+          posterAlt={`${dest.title}, ${dest.region}`}
+        >
+          <Container className="pb-16 pt-28">
           <p className="mb-4 text-caption font-medium uppercase tracking-caps text-saffron">
             {dest.region} · {dest.altitudeMeters?.toLocaleString()}m
           </p>
@@ -95,6 +98,7 @@ export default async function DestinationDetailPage({
           )}
         </Container>
       </VideoHero>
+      </div>
 
       {/* Editorial intro + stats */}
       <section className="bg-snow py-20 md:py-28">
