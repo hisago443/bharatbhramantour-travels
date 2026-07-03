@@ -41,7 +41,7 @@ export default function HomePage() {
         posterAlt="Aerial view of the Indus and Zanskar river confluence in Ladakh"
         height="full"
       >
-        <Container className="pb-20 pt-40 text-center">
+        <Container className="pb-12 pt-24 text-center md:pb-20 md:pt-40">
           <h1 className="font-display text-hero leading-hero tracking-hero text-snow">
             The Himalayas, Properly.
           </h1>

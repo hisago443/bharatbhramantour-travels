@@ -57,7 +57,7 @@ export default function VideoHero({
 
   return (
     <section
-      className={`relative flex items-end overflow-hidden ${heightClass}`}
+      className={`relative flex items-center overflow-hidden md:items-end ${heightClass}`}
     >
       <video
         ref={videoRef}
