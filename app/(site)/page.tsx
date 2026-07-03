@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import VideoHero from "@/components/VideoHero";
 import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
 import PackageCard from "@/components/PackageCard";
@@ -28,16 +29,34 @@ export default function HomePage() {
   return (
     <main>
       <JsonLd data={travelAgencyJsonLd()} />
-      {/* Hero */}
-      <Hero
-        imageSrc={placeholderHeroImage}
-        imageAlt="Aerial view of the Indus and Zanskar river confluence in Ladakh"
-        headline="The Himalayas, Properly."
-        subline="Acclimatization-first itineraries, local drivers who know every crossing, permits handled before you land."
-        ctaLabel="Plan My Trip"
-        ctaHref="/contact"
-        videoSrc="/videos/hero-ladakh.mp4"
-      />
+      {/* Hero with multi-video loop */}
+      <VideoHero
+        videos={[
+          "/videos/hero-ladakh.mp4",
+          "/videos/pangong-timelapse.mp4",
+          "/videos/leh-monastery-aerial.mp4",
+          "/videos/manali-aerial.mp4",
+        ]}
+        posterSrc={placeholderHeroImage}
+        posterAlt="Aerial view of the Indus and Zanskar river confluence in Ladakh"
+        height="full"
+      >
+        <Container className="pb-20 pt-40 text-center">
+          <h1 className="font-display text-hero leading-hero tracking-hero text-snow">
+            The Himalayas, Properly.
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-body font-light leading-body text-stone">
+            Acclimatization-first itineraries, local drivers who know every
+            crossing, permits handled before you land.
+          </p>
+          <a
+            href="/contact"
+            className="mt-10 inline-block bg-saffron px-8 py-4 text-small font-semibold uppercase tracking-caps text-snow transition-colors hover:bg-saffron-hover"
+          >
+            Plan My Trip
+          </a>
+        </Container>
+      </VideoHero>
 
       {/* Positioning Intro */}
       <section className="bg-snow py-24 md:py-32">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/Container";
 import Hero from "@/components/Hero";
 import PackageCard from "@/components/PackageCard";
+import BackButton from "@/components/BackButton";
 import FadeIn from "@/components/FadeIn";
 import CtaBand from "@/components/CtaBand";
 import { waLink } from "@/lib/config";
@@ -111,9 +112,10 @@ export default async function TripTypePage({
         height="inner"
       />
 
-      {/* Editorial intro */}
+      {/* Back button + Editorial intro */}
       <section className="bg-snow py-20 md:py-24">
         <Container>
+          <BackButton className="mb-10 text-charcoal/60 hover:text-night" />
           <FadeIn>
             <p className="mx-auto max-w-3xl text-center font-display text-h3 leading-snug text-night">
               {tripType.intro}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Container from "@/components/Container";
 import CtaBand from "@/components/CtaBand";
+import BackButton from "@/components/BackButton";
 import FadeIn from "@/components/FadeIn";
 import GuideCard from "@/components/GuideCard";
 import JsonLd, { breadcrumbJsonLd } from "@/components/JsonLd";
@@ -66,7 +67,8 @@ export default async function GuideDetailPage({
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/40 to-night/20" />
-        <Container className="relative z-10 pb-16 pt-40">
+        <Container className="relative z-10 pb-16 pt-28">
+          <BackButton className="mb-10 text-snow/70 hover:text-snow" />
           <p className="mb-4 text-caption font-medium uppercase tracking-caps text-saffron">
             Know Before You Go · {guide.readMinutes} min read
           </p>

@@ -4,6 +4,8 @@ import Container from "@/components/Container";
 import PackageCard from "@/components/PackageCard";
 import FadeIn from "@/components/FadeIn";
 import CtaBand from "@/components/CtaBand";
+import BackButton from "@/components/BackButton";
+import VideoHero from "@/components/VideoHero";
 import JsonLd, { breadcrumbJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
 import {
@@ -12,6 +14,7 @@ import {
   destinationHeroImages,
   placeholderHeroImage,
   packageCardImages,
+  destinationVideos,
 } from "@/lib/placeholder-data";
 import { destinationContent } from "@/lib/destination-content";
 
@@ -71,18 +74,14 @@ export default async function DestinationDetailPage({
         ])}
       />
 
-      {/* Hero */}
-      <section className="relative flex min-h-[70vh] items-end overflow-hidden">
-        <Image
-          src={destinationHeroImages[slug] || placeholderHeroImage}
-          alt={`${dest.title}, ${dest.region}`}
-          fill
-          priority
-          className="object-cover animate-ken-burns"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/30 to-night/10" />
-        <Container className="relative z-10 pb-16 pt-40">
+      {/* Hero with video loop */}
+      <VideoHero
+        videos={destinationVideos[slug] || []}
+        posterSrc={destinationHeroImages[slug] || placeholderHeroImage}
+        posterAlt={`${dest.title}, ${dest.region}`}
+      >
+        <Container className="pb-16 pt-28">
+          <BackButton className="mb-10 text-snow/70 hover:text-snow" />
           <p className="mb-4 text-caption font-medium uppercase tracking-caps text-saffron">
             {dest.region} · {dest.altitudeMeters?.toLocaleString()}m
           </p>
@@ -95,7 +94,7 @@ export default async function DestinationDetailPage({
             </p>
           )}
         </Container>
-      </section>
+      </VideoHero>
 
       {/* Editorial intro + stats */}
       <section className="bg-snow py-20 md:py-28">
@@ -188,6 +187,160 @@ export default async function DestinationDetailPage({
                   </div>
                 </FadeIn>
               ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* Flora & Fauna */}
+      {content && content.floraFauna.length > 0 && (
+        <section className="bg-snow py-20 md:py-28">
+          <Container>
+            <FadeIn>
+              <p className="mb-3 text-caption font-medium uppercase tracking-caps text-saffron">
+                The Natural World
+              </p>
+              <h2 className="mb-14 font-display text-h2 leading-heading text-night">
+                Flora &amp; Fauna
+              </h2>
+            </FadeIn>
+            <div className="grid gap-8 md:grid-cols-2">
+              {content.floraFauna.map((item, i) => (
+                <FadeIn key={item.heading} delay={i * 80}>
+                  <div className="group overflow-hidden bg-night">
+                    {item.image && (
+                      <div className="relative aspect-[16/9] overflow-hidden">
+                        <Image
+                          src={item.image}
+                          alt={item.imageAlt || item.heading}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6 md:p-8">
+                      <h3 className="font-display text-h4 text-saffron">{item.heading}</h3>
+                      <p className="mt-3 text-small leading-body text-stone">{item.body}</p>
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* History & Culture */}
+      {content && content.historyCulture.length > 0 && (
+        <section className="bg-night py-20 md:py-28">
+          <Container>
+            <div className="mx-auto max-w-3xl">
+              <FadeIn>
+                <p className="mb-3 text-caption font-medium uppercase tracking-caps text-saffron">
+                  Heritage
+                </p>
+                <h2 className="mb-10 font-display text-h2 leading-heading text-snow">
+                  History &amp; Culture
+                </h2>
+              </FadeIn>
+              <div className="space-y-6">
+                {content.historyCulture.map((para, i) => (
+                  <FadeIn key={i} delay={i * 60}>
+                    <p className={`leading-body ${i === 0 ? "font-display text-h3 leading-snug text-snow" : "text-body font-light text-stone"}`}>
+                      {para}
+                    </p>
+                  </FadeIn>
+                ))}
+              </div>
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* Local Cuisine */}
+      {content && content.localCuisine.length > 0 && (
+        <section className="bg-snow py-20 md:py-28">
+          <Container>
+            <FadeIn>
+              <p className="mb-3 text-caption font-medium uppercase tracking-caps text-saffron">
+                Taste the Place
+              </p>
+              <h2 className="mb-14 font-display text-h2 leading-heading text-night">
+                Local Cuisine
+              </h2>
+            </FadeIn>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {content.localCuisine.map((item, i) => (
+                <FadeIn key={item.dish} delay={i * 60}>
+                  <div className="group overflow-hidden bg-night">
+                    {item.image && (
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <Image
+                          src={item.image}
+                          alt={item.imageAlt || item.dish}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6 md:p-8">
+                      <h3 className="font-display text-h3 italic text-saffron">{item.dish}</h3>
+                      <p className="mt-3 text-small leading-body text-stone">{item.description}</p>
+                    </div>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* Geography & Fun Facts */}
+      {content && (content.geography.length > 0 || content.funFacts.length > 0) && (
+        <section className="bg-night py-20 md:py-28">
+          <Container>
+            <div className="grid gap-16 lg:grid-cols-2">
+              {content.geography.length > 0 && (
+                <FadeIn>
+                  <div>
+                    <p className="mb-3 text-caption font-medium uppercase tracking-caps text-saffron">
+                      Landscape
+                    </p>
+                    <h2 className="mb-8 font-display text-h2 leading-heading text-snow">
+                      Geography &amp; Climate
+                    </h2>
+                    <div className="space-y-5">
+                      {content.geography.map((para, i) => (
+                        <p key={i} className="text-body leading-body font-light text-stone">{para}</p>
+                      ))}
+                    </div>
+                  </div>
+                </FadeIn>
+              )}
+              {content.funFacts.length > 0 && (
+                <FadeIn delay={150}>
+                  <div>
+                    <p className="mb-3 text-caption font-medium uppercase tracking-caps text-saffron">
+                      Did You Know?
+                    </p>
+                    <h2 className="mb-8 font-display text-h2 leading-heading text-snow">
+                      Fascinating Facts
+                    </h2>
+                    <ul className="space-y-4">
+                      {content.funFacts.map((fact, i) => (
+                        <li key={i} className="flex items-start gap-4 text-body leading-body font-light text-stone">
+                          <span className="mt-1 flex h-6 w-6 flex-none items-center justify-center bg-saffron text-caption font-semibold text-snow">
+                            {i + 1}
+                          </span>
+                          {fact}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FadeIn>
+              )}
             </div>
           </Container>
         </section>

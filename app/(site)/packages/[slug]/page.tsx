@@ -4,6 +4,7 @@ import Container from "@/components/Container";
 import Badge from "@/components/Badge";
 import Accordion from "@/components/Accordion";
 import CtaBand from "@/components/CtaBand";
+import BackButton from "@/components/BackButton";
 import FadeIn from "@/components/FadeIn";
 import JsonLd, { touristTripJsonLd, faqPageJsonLd, breadcrumbJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
@@ -110,7 +111,8 @@ export default async function PackageDetailPage({
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-night/80 via-night/30 to-transparent" />
-        <Container className="relative z-10 pb-16 pt-32">
+        <Container className="relative z-10 pb-16 pt-24">
+          <BackButton className="mb-10 text-snow/70 hover:text-snow" />
           <div className="max-w-3xl">
             {pkg.isSignature && <Badge variant="saffron" className="mb-4">Signature Expedition</Badge>}
             <Badge variant="night" className="mb-4 ml-2">{pkg.durationDays} Days</Badge>

@@ -29,13 +29,13 @@ export default function PackageCard({
       href={`/packages/${slug}`}
       className="group block overflow-hidden bg-snow"
     >
-      <div className="relative aspect-[3/4] overflow-hidden">
+      <div className={`relative overflow-hidden ${isSignature ? "aspect-[4/3]" : "aspect-[3/4]"}`}>
         <Image
           src={imageSrc}
           alt={imageAlt}
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes={isSignature ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-night/50 via-transparent to-transparent" />
         {isSignature && (
