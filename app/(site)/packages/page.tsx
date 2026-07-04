@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/Container";
 import SectionHeading from "@/components/SectionHeading";
 import PackageCard from "@/components/PackageCard";
+import PackagesWithFilters from "@/components/PackagesWithFilters";
 import FadeIn from "@/components/FadeIn";
 import CtaBand from "@/components/CtaBand";
 import { waLink } from "@/lib/config";
@@ -65,30 +66,11 @@ export default function PackagesPage() {
 
       <section className="bg-snow pb-24 md:pb-32">
         <Container>
-          <FadeIn>
-            <SectionHeading
-              eyebrow="All Packages"
-              title="Find Your Route"
-            />
-          </FadeIn>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {packages
-              .filter((p) => !p.isSignature)
-              .map((pkg, i) => (
-                <FadeIn key={pkg._id} delay={i * 80}>
-                  <PackageCard
-                    title={pkg.title!}
-                    slug={pkg.slug!.current}
-                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
-                    imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
-                    durationDays={pkg.durationDays!}
-                    routeLine={pkg.routeLine}
-                    bestMonths={pkg.bestMonths}
-                    startingPrice={pkg.startingPrice!}
-                  />
-                </FadeIn>
-              ))}
-          </div>
+          <PackagesWithFilters
+            packages={packages}
+            cardImages={packageCardImages}
+            fallbackImage={placeholderHeroImage}
+          />
         </Container>
       </section>
 

@@ -5,6 +5,7 @@ export const siteConfig = {
   description:
     "Premium Ladakh and Himachal Pradesh tours — acclimatization-first itineraries, local Himalayan team, permits handled.",
   url: "https://bharatbhramantours.com",
+  phone: "+91-XXXXXXXXXX",
 } as const;
 
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "91XXXXXXXXXX";

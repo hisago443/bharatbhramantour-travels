@@ -8,7 +8,39 @@ import BackButton from "@/components/BackButton";
 import FadeIn from "@/components/FadeIn";
 import JsonLd, { touristTripJsonLd, faqPageJsonLd, breadcrumbJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
-import { placeholderPackages, placeholderHeroImage, packageHeroImages } from "@/lib/placeholder-data";
+import { placeholderPackages, placeholderDestinations, placeholderHeroImage, packageHeroImages, destinationImages } from "@/lib/placeholder-data";
+
+function AltitudeProfile({ days }: { days: { dayNumber: number; title: string; altitudeMeters?: number; stayLocation?: string }[] }) {
+  const altitudes = days.map((d) => d.altitudeMeters ?? 0);
+  const max = Math.max(...altitudes);
+  const min = Math.min(...altitudes);
+  const range = max - min || 1;
+
+  return (
+    <div className="overflow-hidden bg-night/5 p-4 sm:p-6">
+      <div className="flex items-end gap-1.5 sm:gap-3" style={{ height: 180 }}>
+        {days.map((day) => {
+          const alt = day.altitudeMeters ?? 0;
+          const pct = 30 + ((alt - min) / range) * 65;
+          return (
+            <div key={day.dayNumber} className="group relative flex flex-1 flex-col items-center">
+              <div className="mb-1 text-[10px] font-semibold text-night sm:text-caption">
+                {alt.toLocaleString()}m
+              </div>
+              <div
+                className="w-full bg-saffron transition-colors group-hover:bg-saffron-hover"
+                style={{ height: `${pct}%` }}
+              />
+              <span className="mt-2 text-[10px] font-medium text-charcoal/70 sm:text-caption">
+                D{day.dayNumber}
+              </span>
+            </div>
+          );
+      })}
+      </div>
+    </div>
+  );
+}
 
 export function generateStaticParams() {
   return placeholderPackages.map((pkg) => ({
@@ -45,6 +77,12 @@ export default async function PackageDetailPage({
       </main>
     );
   }
+
+  const routeText = `${pkg.title ?? ""} ${pkg.routeLine ?? ""}`.toLowerCase();
+  const relatedDestinations = placeholderDestinations.filter((d) => {
+    const name = (d.title ?? "").toLowerCase().split(" ")[0];
+    return name.length > 2 && routeText.includes(name);
+  });
 
   const itineraryItems =
     pkg.itinerary?.map((day) => ({
@@ -163,6 +201,21 @@ export default async function PackageDetailPage({
                 </FadeIn>
               )}
 
+              {/* Altitude Profile */}
+              {pkg.itinerary && pkg.itinerary.length > 1 && (
+                <FadeIn>
+                  <div className="mt-16">
+                    <h2 className="mb-2 font-display text-h3 leading-heading text-night">
+                      Altitude Profile
+                    </h2>
+                    <p className="mb-6 text-small text-charcoal/60">
+                      Metres above sea level per day — see how the route builds altitude gradually.
+                    </p>
+                    <AltitudeProfile days={pkg.itinerary} />
+                  </div>
+                </FadeIn>
+              )}
+
               {/* Inclusions / Exclusions */}
               {(pkg.inclusions || pkg.exclusions) && (
                 <FadeIn>
@@ -270,6 +323,47 @@ export default async function PackageDetailPage({
           WhatsApp
         </a>
       </div>
+
+      {/* Destinations on this route */}
+      {relatedDestinations.length > 0 && (
+        <section className="bg-night py-16 md:py-24">
+          <Container>
+            <FadeIn>
+              <p className="mb-3 text-caption font-medium uppercase tracking-caps text-saffron">
+                Destinations on This Route
+              </p>
+              <h2 className="mb-10 font-display text-h2 leading-heading text-snow">
+                Places You&apos;ll Visit
+              </h2>
+            </FadeIn>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedDestinations.map((dest, i) => (
+                <FadeIn key={dest._id} delay={i * 60}>
+                  <a
+                    href={`/destinations/${dest.slug!.current}`}
+                    className="group relative block aspect-[16/9] overflow-hidden"
+                  >
+                    <Image
+                      src={destinationImages[dest.slug!.current] || placeholderHeroImage}
+                      alt={`${dest.title}, ${dest.region}`}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-night/70 to-transparent" />
+                    <div className="absolute bottom-4 left-4">
+                      <p className="font-display text-h3 text-snow">{dest.title}</p>
+                      <p className="text-caption text-snow/70">
+                        {dest.altitudeMeters?.toLocaleString()}m · {dest.region}
+                      </p>
+                    </div>
+                  </a>
+                </FadeIn>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       <CtaBand whatsappHref={waLink()} />
     </main>

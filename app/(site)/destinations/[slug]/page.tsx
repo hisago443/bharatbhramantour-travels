@@ -157,6 +157,16 @@ export default async function DestinationDetailPage({
                   </p>
                   <p className="mt-1 text-body text-snow">{dest.region}</p>
                 </div>
+                {relatedPackages.length > 0 && (
+                  <div className="bg-night p-6">
+                    <p className="text-caption font-medium uppercase tracking-caps text-saffron">
+                      Packages
+                    </p>
+                    <p className="mt-1 text-body text-snow">
+                      {relatedPackages.length} trip{relatedPackages.length > 1 ? "s" : ""} through here
+                    </p>
+                  </div>
+                )}
               </div>
             </FadeIn>
           </div>

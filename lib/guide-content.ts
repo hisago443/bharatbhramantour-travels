@@ -78,7 +78,7 @@ export const guideBodies: GuideBody[] = [
     slug: "acclimatization-ladakh",
     excerpt:
       "Leh sits at 3,500m. Your body needs time. Here's how to pace your first 48 hours, what AMS feels like, and when to take Diamox.",
-    imageKey: "leh",
+    imageKey: "nubra-valley",
     readMinutes: 7,
     sections: [
       {
@@ -228,7 +228,7 @@ export const guideBodies: GuideBody[] = [
     slug: "pangong-vs-tso-moriri-vs-hanle",
     excerpt:
       "Three very different high-altitude experiences. Pangong is the icon, Tso Moriri is the quiet one, Hanle is the dark sky.",
-    imageKey: "pangong-tso",
+    imageKey: "tso-moriri",
     readMinutes: 5,
     sections: [
       {

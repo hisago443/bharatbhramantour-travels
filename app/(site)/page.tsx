@@ -19,6 +19,46 @@ import {
   packageCardImages,
 } from "@/lib/placeholder-data";
 
+function WhyUsIcon({ name }: { name?: string }) {
+  const cls = "h-6 w-6 text-saffron";
+  switch (name) {
+    case "mountain":
+      return (
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8 21l4.5-9 3.5 5 4-7" /><path d="M2 21h20" /><path d="M15 10l2-4 5 15" /><path d="M2 21l6-10.5L11 16" />
+        </svg>
+      );
+    case "heart":
+      return (
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7z" />
+        </svg>
+      );
+    case "phone":
+      return (
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+        </svg>
+      );
+    case "shield":
+      return (
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="M9 12l2 2 4-4" />
+        </svg>
+      );
+    case "check":
+      return (
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9 12l2 2 4-4" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
 export default function HomePage() {
   const signaturePackages = placeholderPackages.filter((p) => p.isSignature);
   const allPackages = placeholderPackages;
@@ -217,13 +257,7 @@ export default function HomePage() {
               <FadeIn key={item.title} delay={i * 80}>
                 <div className="text-center">
                   <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center bg-saffron/10">
-                    <span className="text-h3 text-saffron">
-                      {item.icon === "mountain" && "⛰"}
-                      {item.icon === "heart" && "❤"}
-                      {item.icon === "phone" && "📞"}
-                      {item.icon === "shield" && "🛡"}
-                      {item.icon === "check" && "✓"}
-                    </span>
+                    <WhyUsIcon name={item.icon} />
                   </div>
                   <h3 className="text-small font-semibold uppercase tracking-caps text-night">
                     {item.title}
@@ -242,6 +276,11 @@ export default function HomePage() {
       <section className="bg-night py-24 md:py-32">
         <Container>
           <FadeIn>
+            <SectionHeading
+              eyebrow="Traveller Stories"
+              title="In Their Words"
+              dark
+            />
             <div className="flex flex-col items-center gap-16">
               {testimonials.map((t) => (
                 <TestimonialCard
@@ -250,6 +289,7 @@ export default function HomePage() {
                   name={t.name!}
                   location={t.location}
                   tripName={t.tripTaken?.title}
+                  tripDate={t.tripDate}
                 />
               ))}
             </div>
