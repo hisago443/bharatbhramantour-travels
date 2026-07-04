@@ -9,6 +9,7 @@ import FadeIn from "@/components/FadeIn";
 import JsonLd, { touristTripJsonLd, faqPageJsonLd, breadcrumbJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
 import { placeholderPackages, placeholderDestinations, placeholderHeroImage, packageHeroImages, destinationImages } from "@/lib/placeholder-data";
+import { itineraryContent } from "@/lib/itinerary-content";
 
 function AltitudeProfile({ days }: { days: { dayNumber: number; title: string; altitudeMeters?: number; stayLocation?: string }[] }) {
   const altitudes = days.map((d) => d.altitudeMeters ?? 0);
@@ -83,6 +84,8 @@ export default async function PackageDetailPage({
     const name = (d.title ?? "").toLowerCase().split(" ")[0];
     return name.length > 2 && routeText.includes(name);
   });
+
+  const dayContent = itineraryContent[slug] ?? [];
 
   const itineraryItems =
     pkg.itinerary?.map((day) => ({
@@ -189,16 +192,105 @@ export default async function PackageDetailPage({
                 </div>
               </FadeIn>
 
-              {/* Itinerary */}
-              {itineraryItems.length > 0 && (
-                <FadeIn>
-                  <div className="mt-16">
-                    <h2 className="mb-8 font-display text-h2 leading-heading text-night">
+              {/* Itinerary — visual timeline */}
+              {pkg.itinerary && pkg.itinerary.length > 0 && (
+                <div className="mt-16">
+                  <FadeIn>
+                    <h2 className="mb-10 font-display text-h2 leading-heading text-night">
                       Day-by-Day Itinerary
                     </h2>
-                    <Accordion items={itineraryItems} />
+                  </FadeIn>
+
+                  <div className="space-y-0">
+                    {pkg.itinerary.map((day, idx) => {
+                      const content = dayContent[idx];
+                      return (
+                        <FadeIn key={day.dayNumber} delay={idx * 60}>
+                          <div className="relative border-l-2 border-saffron/30 pb-12 pl-8 last:pb-0 sm:pl-10">
+                            {/* Timeline dot */}
+                            <div className="absolute -left-[9px] top-0 h-4 w-4 border-2 border-saffron bg-snow" />
+
+                            {/* Day badge */}
+                            <p className="mb-3 text-caption font-semibold uppercase tracking-caps text-saffron">
+                              Day {day.dayNumber}
+                            </p>
+
+                            {/* Title */}
+                            <h3 className="mb-4 font-display text-h3 leading-heading text-night">
+                              {day.title}
+                            </h3>
+
+                            {/* Photo */}
+                            {content?.image && (
+                              <div className="relative mb-5 aspect-[16/9] overflow-hidden">
+                                <Image
+                                  src={content.image}
+                                  alt={content.imageAlt}
+                                  fill
+                                  className="object-cover"
+                                  sizes="(max-width: 768px) 100vw, 600px"
+                                />
+                              </div>
+                            )}
+
+                            {/* Description */}
+                            {content?.description && (
+                              <p className="mb-4 text-body leading-relaxed text-charcoal/80">
+                                {content.description}
+                              </p>
+                            )}
+
+                            {/* Highlights */}
+                            {content?.highlights && content.highlights.length > 0 && (
+                              <ul className="mb-4 space-y-1.5">
+                                {content.highlights.map((h) => (
+                                  <li key={h} className="flex items-start gap-2 text-small text-charcoal/70">
+                                    <span className="mt-0.5 text-saffron">▸</span>
+                                    {h}
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+
+                            {/* Meta chips */}
+                            <div className="flex flex-wrap gap-3">
+                              {day.stayLocation && (
+                                <span className="inline-flex items-center gap-1.5 bg-night/5 px-3 py-1.5 text-caption text-charcoal/70">
+                                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6" /></svg>
+                                  {day.stayLocation}
+                                </span>
+                              )}
+                              {day.altitudeMeters && (
+                                <span className="inline-flex items-center gap-1.5 bg-night/5 px-3 py-1.5 text-caption text-charcoal/70">
+                                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M8 21l4.5-9 3.5 5 4-7M2 21h20" /></svg>
+                                  {day.altitudeMeters.toLocaleString()}m
+                                </span>
+                              )}
+                              {day.drivingHours && (
+                                <span className="inline-flex items-center gap-1.5 bg-night/5 px-3 py-1.5 text-caption text-charcoal/70">
+                                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg>
+                                  ~{day.drivingHours}h drive
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </FadeIn>
+                      );
+                    })}
                   </div>
-                </FadeIn>
+
+                  {/* Collapsed accordion fallback for quick scanning */}
+                  {itineraryItems.length > 0 && (
+                    <details className="mt-8">
+                      <summary className="cursor-pointer text-small font-medium text-saffron hover:text-saffron-hover">
+                        Quick overview (expandable list)
+                      </summary>
+                      <div className="mt-4">
+                        <Accordion items={itineraryItems} />
+                      </div>
+                    </details>
+                  )}
+                </div>
               )}
 
               {/* Altitude Profile */}
