@@ -8,8 +8,12 @@ import BackButton from "@/components/BackButton";
 import FadeIn from "@/components/FadeIn";
 import JsonLd, { touristTripJsonLd, faqPageJsonLd, breadcrumbJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
-import { placeholderPackages, placeholderDestinations, placeholderHeroImage, packageHeroImages, destinationImages } from "@/lib/placeholder-data";
-import { itineraryContent } from "@/lib/itinerary-content";
+import { placeholderDestinations, placeholderHeroImage, destinationImages } from "@/lib/placeholder-data";
+import { sanityFetch } from "@/sanity/lib/client";
+import { packageBySlugQuery, allPackagesQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import { PortableText } from "next-sanity";
+import type { Package } from "@/sanity/lib/types";
 
 function AltitudeProfile({ days }: { days: { dayNumber: number; title: string; altitudeMeters?: number; stayLocation?: string }[] }) {
   const altitudes = days.map((d) => d.altitudeMeters ?? 0);
@@ -43,24 +47,24 @@ function AltitudeProfile({ days }: { days: { dayNumber: number; title: string; a
   );
 }
 
-export function generateStaticParams() {
-  return placeholderPackages.map((pkg) => ({
-    slug: pkg.slug!.current,
+export async function generateStaticParams() {
+  const packages = await sanityFetch<Package[]>(allPackagesQuery);
+  return (packages || []).map((pkg) => ({
+    slug: pkg.slug.current,
   }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  return params.then(({ slug }) => {
-    const pkg = placeholderPackages.find((p) => p.slug?.current === slug);
-    return {
-      title: pkg?.title ?? "Package",
-      description: pkg?.summary ?? "Ladakh tour package details",
-    };
-  });
+  const { slug } = await params;
+  const pkg = await sanityFetch<Package>(packageBySlugQuery, { slug });
+  return {
+    title: pkg?.title ?? "Package",
+    description: pkg?.summary ?? "Ladakh tour package details",
+  };
 }
 
 export default async function PackageDetailPage({
@@ -69,7 +73,7 @@ export default async function PackageDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const pkg = placeholderPackages.find((p) => p.slug?.current === slug);
+  const pkg = await sanityFetch<Package>(packageBySlugQuery, { slug });
 
   if (!pkg) {
     return (
@@ -84,8 +88,6 @@ export default async function PackageDetailPage({
     const name = (d.title ?? "").toLowerCase().split(" ")[0];
     return name.length > 2 && routeText.includes(name);
   });
-
-  const dayContent = itineraryContent[slug] ?? [];
 
   const itineraryItems =
     pkg.itinerary?.map((day) => ({
@@ -117,8 +119,10 @@ export default async function PackageDetailPage({
     pkg.faq?.map((f, i) => ({
       id: `faq-${i}`,
       title: f.question,
-      content: <p>{f.answer}</p>,
+      content: <p>{f.answer as unknown as string}</p>,
     })) ?? [];
+
+  const heroImageUrl = pkg.heroImage ? urlFor(pkg.heroImage).url() : placeholderHeroImage;
 
   return (
     <main>
@@ -140,12 +144,12 @@ export default async function PackageDetailPage({
           { name: pkg.title!, url: `https://bharatbhramantours.com/packages/${pkg.slug!.current}` },
         ])}
       />
-      {pkg.faq && pkg.faq.length > 0 && <JsonLd data={faqPageJsonLd(pkg.faq)} />}
+      {pkg.faq && pkg.faq.length > 0 && <JsonLd data={faqPageJsonLd(pkg.faq as any)} />}
       {/* Hero */}
       <section className="relative flex min-h-[60vh] items-end overflow-hidden">
         <Image
-          src={packageHeroImages[pkg.slug!.current] || placeholderHeroImage}
-          alt={`${pkg.title} — ${pkg.routeLine || "Ladakh tour"}`}
+          src={heroImageUrl}
+          alt={pkg.heroImage?.alt || `${pkg.title} — ${pkg.routeLine || "Ladakh tour"}`}
           fill
           priority
           className="object-cover animate-ken-burns"
@@ -203,7 +207,6 @@ export default async function PackageDetailPage({
 
                   <div className="space-y-0">
                     {pkg.itinerary.map((day, idx) => {
-                      const content = dayContent[idx];
                       return (
                         <FadeIn key={day.dayNumber} delay={idx * 60}>
                           <div className="relative border-l-2 border-saffron/30 pb-12 pl-8 last:pb-0 sm:pl-10">
@@ -220,36 +223,11 @@ export default async function PackageDetailPage({
                               {day.title}
                             </h3>
 
-                            {/* Photo */}
-                            {content?.image && (
-                              <div className="relative mb-5 aspect-[16/9] overflow-hidden">
-                                <Image
-                                  src={content.image}
-                                  alt={content.imageAlt}
-                                  fill
-                                  className="object-cover"
-                                  sizes="(max-width: 768px) 100vw, 600px"
-                                />
-                              </div>
-                            )}
-
                             {/* Description */}
-                            {content?.description && (
-                              <p className="mb-4 text-body leading-relaxed text-charcoal/80">
-                                {content.description}
-                              </p>
-                            )}
-
-                            {/* Highlights */}
-                            {content?.highlights && content.highlights.length > 0 && (
-                              <ul className="mb-4 space-y-1.5">
-                                {content.highlights.map((h) => (
-                                  <li key={h} className="flex items-start gap-2 text-small text-charcoal/70">
-                                    <span className="mt-0.5 text-saffron">▸</span>
-                                    {h}
-                                  </li>
-                                ))}
-                              </ul>
+                            {day.description && (
+                              <div className="mb-4 text-body leading-relaxed text-charcoal/80 prose prose-sm max-w-none">
+                                <PortableText value={day.description} />
+                              </div>
                             )}
 
                             {/* Meta chips */}

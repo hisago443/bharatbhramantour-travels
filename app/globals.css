@@ -53,6 +53,12 @@
   --spacing-24: 6rem;
   --spacing-32: 8rem;
   --spacing-40: 10rem;
+
+  --animate-marquee: marquee 40s linear infinite;
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
 }
 
 body {
@@ -79,3 +85,5 @@ body {
     animation: none;
   }
 }
+
+

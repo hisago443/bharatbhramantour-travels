@@ -10,14 +10,16 @@ import FadeIn from "@/components/FadeIn";
 import JsonLd, { travelAgencyJsonLd } from "@/components/JsonLd";
 import { waLink } from "@/lib/config";
 import {
-  placeholderPackages,
   placeholderDestinations,
   placeholderTestimonials,
   placeholderWhyUs,
   placeholderHeroImage,
   destinationImages,
-  packageCardImages,
 } from "@/lib/placeholder-data";
+import { sanityFetch } from "@/sanity/lib/client";
+import { allPackagesQuery, signaturePackagesQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import type { Package } from "@/sanity/lib/types";
 
 function WhyUsIcon({ name }: { name?: string }) {
   const cls = "h-6 w-6 text-saffron";
@@ -59,9 +61,9 @@ function WhyUsIcon({ name }: { name?: string }) {
   }
 }
 
-export default function HomePage() {
-  const signaturePackages = placeholderPackages.filter((p) => p.isSignature);
-  const allPackages = placeholderPackages;
+export default async function HomePage() {
+  const signaturePackages = await sanityFetch<Package[]>(signaturePackagesQuery) || [];
+  const allPackages = await sanityFetch<Package[]>(allPackagesQuery) || [];
   const destinations = placeholderDestinations;
   const testimonials = placeholderTestimonials;
   const whyUs = placeholderWhyUs;
@@ -160,7 +162,7 @@ export default function HomePage() {
                   <PackageCard
                     title={pkg.title!}
                     slug={pkg.slug!.current}
-                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
+                    imageSrc={pkg.heroImage ? urlFor(pkg.heroImage).url() : placeholderHeroImage}
                     imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
@@ -175,6 +177,8 @@ export default function HomePage() {
           </Container>
         </section>
       )}
+
+
 
       {/* All Packages Preview */}
       <section className="bg-snow py-24 md:py-32">
@@ -195,7 +199,7 @@ export default function HomePage() {
                   <PackageCard
                     title={pkg.title!}
                     slug={pkg.slug!.current}
-                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
+                    imageSrc={pkg.heroImage ? urlFor(pkg.heroImage).url() : placeholderHeroImage}
                     imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
@@ -273,7 +277,7 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-night py-24 md:py-32">
+      <section className="bg-night py-24 md:py-32 overflow-hidden">
         <Container>
           <FadeIn>
             <SectionHeading
@@ -281,20 +285,24 @@ export default function HomePage() {
               title="In Their Words"
               dark
             />
-            <div className="flex flex-col items-center gap-16">
-              {testimonials.map((t) => (
+          </FadeIn>
+        </Container>
+        
+        <div className="mt-16 flex overflow-hidden group">
+          <div className="flex animate-marquee gap-8 w-max pr-8">
+            {[...testimonials, ...testimonials].map((t, idx) => (
+              <div key={`${t._id}-${idx}`} className="w-[85vw] max-w-[360px] shrink-0">
                 <TestimonialCard
-                  key={t._id}
                   quote={t.quote!}
                   name={t.name!}
                   location={t.location}
                   tripName={t.tripTaken?.title}
                   tripDate={t.tripDate}
                 />
-              ))}
-            </div>
-          </FadeIn>
-        </Container>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* CTA Band */}

@@ -6,7 +6,11 @@ import PackagesWithFilters from "@/components/PackagesWithFilters";
 import FadeIn from "@/components/FadeIn";
 import CtaBand from "@/components/CtaBand";
 import { waLink } from "@/lib/config";
-import { placeholderPackages, placeholderHeroImage, packageCardImages } from "@/lib/placeholder-data";
+import { placeholderHeroImage, packageCardImages } from "@/lib/placeholder-data";
+import { sanityFetch } from "@/sanity/lib/client";
+import { allPackagesQuery } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+import type { Package } from "@/sanity/lib/types";
 
 export const metadata: Metadata = {
   title: "Packages",
@@ -14,8 +18,8 @@ export const metadata: Metadata = {
     "Ladakh and Himachal Pradesh tour packages — from 3-day weekends to 10-day trans-Himalayan crossings. Acclimatization-paced, locally guided, no hidden costs.",
 };
 
-export default function PackagesPage() {
-  const packages = placeholderPackages;
+export default async function PackagesPage() {
+  const packages = (await sanityFetch<Package[]>(allPackagesQuery)) || [];
 
   return (
     <main>
@@ -50,7 +54,7 @@ export default function PackagesPage() {
                   <PackageCard
                     title={pkg.title!}
                     slug={pkg.slug!.current}
-                    imageSrc={packageCardImages[pkg.slug!.current] || placeholderHeroImage}
+                    imageSrc={pkg.heroImage ? urlFor(pkg.heroImage).url() : placeholderHeroImage}
                     imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
@@ -68,7 +72,6 @@ export default function PackagesPage() {
         <Container>
           <PackagesWithFilters
             packages={packages}
-            cardImages={packageCardImages}
             fallbackImage={placeholderHeroImage}
           />
         </Container>

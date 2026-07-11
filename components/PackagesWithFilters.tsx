@@ -4,6 +4,7 @@ import PackageCard from "./PackageCard";
 import PackageFilters, { usePackageFilters } from "./PackageFilters";
 import FadeIn from "./FadeIn";
 import SectionHeading from "./SectionHeading";
+import { urlFor } from "@/sanity/lib/image";
 
 interface PackageData {
   _id?: string;
@@ -14,15 +15,14 @@ interface PackageData {
   bestMonths?: string[];
   startingPrice?: number;
   isSignature?: boolean;
+  heroImage?: any;
 }
 
 export default function PackagesWithFilters({
   packages,
-  cardImages,
   fallbackImage,
 }: {
   packages: PackageData[];
-  cardImages: Record<string, string>;
   fallbackImage: string;
 }) {
   const nonSignature = packages.filter((p) => !p.isSignature);
@@ -51,7 +51,7 @@ export default function PackagesWithFilters({
               <PackageCard
                 title={pkg.title!}
                 slug={pkg.slug!.current}
-                imageSrc={cardImages[pkg.slug!.current] || fallbackImage}
+                imageSrc={pkg.heroImage ? urlFor(pkg.heroImage).url() : fallbackImage}
                 imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                 durationDays={pkg.durationDays!}
                 routeLine={pkg.routeLine}
