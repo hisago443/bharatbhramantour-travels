@@ -56,7 +56,6 @@ export default function PackagesWithFilters({
                 durationDays={pkg.durationDays!}
                 routeLine={pkg.routeLine}
                 bestMonths={pkg.bestMonths}
-                startingPrice={pkg.startingPrice!}
               />
             </FadeIn>
           ))}

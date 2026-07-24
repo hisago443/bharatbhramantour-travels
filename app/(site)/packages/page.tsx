@@ -59,7 +59,6 @@ export default async function PackagesPage() {
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
                     bestMonths={pkg.bestMonths}
-                    startingPrice={pkg.startingPrice!}
                     isSignature
                   />
                 </FadeIn>

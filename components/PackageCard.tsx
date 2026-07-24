@@ -9,7 +9,6 @@ interface PackageCardProps {
   durationDays: number;
   routeLine?: string;
   bestMonths?: string[];
-  startingPrice: number;
   isSignature?: boolean;
   priority?: boolean;
 }
@@ -22,7 +21,6 @@ export default function PackageCard({
   durationDays,
   routeLine,
   bestMonths,
-  startingPrice,
   isSignature,
   priority,
 }: PackageCardProps) {
@@ -63,10 +61,7 @@ export default function PackageCard({
             Best: {bestMonths.slice(0, 3).join(" · ")}
           </p>
         )}
-        <div className="mt-5 flex items-center justify-between border-t border-stone/60 pt-4">
-          <p className="font-display text-h4 text-night">
-            From ₹{startingPrice.toLocaleString("en-IN")}
-          </p>
+        <div className="mt-5 border-t border-stone/60 pt-4 text-center">
           <span className="relative text-caption font-semibold uppercase tracking-caps text-saffron">
             View Journey
             <span className="absolute -bottom-1 left-0 h-px w-0 bg-saffron transition-all duration-300 group-hover:w-full" />

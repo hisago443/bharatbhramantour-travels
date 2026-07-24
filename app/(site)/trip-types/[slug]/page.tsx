@@ -144,7 +144,6 @@ export default async function TripTypePage({
                   imageAlt={`${pkg.title} — ${pkg.routeLine || "Ladakh"}`}
                   durationDays={pkg.durationDays!}
                   routeLine={pkg.routeLine}
-                  startingPrice={pkg.startingPrice!}
                   isSignature={pkg.isSignature}
                 />
               </FadeIn>

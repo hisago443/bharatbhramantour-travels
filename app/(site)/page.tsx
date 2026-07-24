@@ -167,7 +167,6 @@ export default async function HomePage() {
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
                     bestMonths={pkg.bestMonths}
-                    startingPrice={pkg.startingPrice!}
                     isSignature
                     priority={i < 2}
                   />
@@ -187,7 +186,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Our Packages"
               title="Find Your Route"
-              description="Every itinerary paced for altitude, priced with no hidden costs, led by drivers who know the roads."
+              description="Every itinerary paced for altitude, led by drivers who know the roads, crafted for the journey of a lifetime."
             />
           </FadeIn>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -204,7 +203,6 @@ export default async function HomePage() {
                     durationDays={pkg.durationDays!}
                     routeLine={pkg.routeLine}
                     bestMonths={pkg.bestMonths}
-                    startingPrice={pkg.startingPrice!}
                   />
                 </FadeIn>
               ))}

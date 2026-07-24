@@ -167,14 +167,6 @@ export default async function PackageDetailPage({
             {pkg.routeLine && (
               <p className="mt-4 text-body font-light text-stone">{pkg.routeLine}</p>
             )}
-            <div className="mt-6 flex flex-wrap items-center gap-6">
-              <p className="text-h3 font-semibold text-snow">
-                From ₹{pkg.startingPrice?.toLocaleString("en-IN")}
-              </p>
-              {pkg.priceNote && (
-                <p className="text-small text-slate">{pkg.priceNote}</p>
-              )}
-            </div>
             {pkg.bestMonths && pkg.bestMonths.length > 0 && (
               <p className="mt-3 text-small text-slate">
                 Best months: {pkg.bestMonths.join(", ")}
@@ -350,12 +342,6 @@ export default async function PackageDetailPage({
                   {pkg.durationDays} Days
                 </p>
                 <p className="font-display text-h3 text-snow">{pkg.title}</p>
-                <p className="text-h3 font-semibold text-snow">
-                  From ₹{pkg.startingPrice?.toLocaleString("en-IN")}
-                </p>
-                {pkg.priceNote && (
-                  <p className="text-caption text-slate">{pkg.priceNote}</p>
-                )}
                 <a
                   href="/contact"
                   className="block w-full bg-saffron py-4 text-center text-small font-semibold uppercase tracking-caps text-snow transition-colors hover:bg-saffron-hover"
