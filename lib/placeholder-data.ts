@@ -730,7 +730,7 @@ export const placeholderWhyUs: WhyUsItem[] = [
   { icon: "heart", title: "Acclimatization-First Itineraries", description: "Routes paced for altitude with oxygen on board. Your body adjusts before your adventure begins." },
   { icon: "phone", title: "24/7 On-Road Support", description: "One call, we're already moving. Real support from people who know every road and every shortcut." },
   { icon: "shield", title: "Permits Handled", description: "ILP and restricted-area paperwork done before you land. You travel — we handle the bureaucracy." },
-  { icon: "check", title: "Worth Every Rupee", description: "Your money goes into the experience, not middlemen. Every rupee you spend is worth the mountains, the memories, and the journey of a lifetime." },
+  { icon: "rupee", title: "Worth Every Rupee", description: "Your money goes into the experience, not middlemen. Every rupee you spend is worth the mountains, the memories, and the journey of a lifetime." },
 ];
 
 // Unsplash photo helper — all photos are free under the Unsplash License

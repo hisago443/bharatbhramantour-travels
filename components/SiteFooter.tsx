@@ -7,6 +7,7 @@ const exploreLinks = [
   { label: "Travel Guides", href: "/guides" },
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
+  { label: "Feedback", href: "/feedback" },
 ];
 
 const popularPackages = [

@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@formspree/react": "^3.0.0",
     "@sanity/icons": "^4.1.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^6.3.0",

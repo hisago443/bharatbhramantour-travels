@@ -56,6 +56,16 @@ function WhyUsIcon({ name }: { name?: string }) {
           <path d="M9 12l2 2 4-4" />
         </svg>
       );
+    case "rupee":
+      return (
+        <svg className={cls} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M6 3h12" />
+          <path d="M6 8h12" />
+          <path d="M6 13h8.5l-8 8" />
+          <path d="M6 13h3" />
+          <path d="M9 13c6.667 0 6.667-10 0-10" />
+        </svg>
+      );
     default:
       return null;
   }
