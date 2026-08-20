@@ -26,6 +26,8 @@ export const metadata: Metadata = {
     "Premium Ladakh and Himachal Pradesh tours — acclimatization-first itineraries, local Himalayan team, permits handled.",
 };
 
+import Script from "next/script";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,6 +38,20 @@ export default function RootLayout({
       lang="en"
       className={`${dmSerifDisplay.variable} ${plusJakartaSans.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-RZ68E658DE"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-RZ68E658DE');
+          `}
+        </Script>
+      </head>
       <body className="min-h-full flex flex-col font-body">{children}</body>
     </html>
   );
