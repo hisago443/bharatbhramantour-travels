@@ -32,9 +32,12 @@ export default function Hero({
           <video
             autoPlay
             muted
-            loop
             playsInline
             poster={imageSrc}
+            onEnded={(e) => {
+              e.currentTarget.currentTime = 0;
+              e.currentTarget.play();
+            }}
             className="absolute inset-0 h-full w-full object-cover"
           >
             <source src={videoSrc} type="video/mp4" />
