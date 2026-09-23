@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   },
   description:
     "Premium Ladakh and Himachal Pradesh tours — acclimatization-first itineraries, local Himalayan team, permits handled.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 import Script from "next/script";
